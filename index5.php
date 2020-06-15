@@ -24,6 +24,7 @@ abstract class Tariff implements iTariff
         return $this->distance * $this->pricePerKm + $this->time * $this->pricePerMin;
     }
 }
+
 // Базовый тариф
 class BasicTariff extends Tariff
 {
@@ -43,6 +44,7 @@ class BasicTariff extends Tariff
         return parent::getPrice();
     }
 }
+
 // Студенческий тариф
 class StudentTariff extends Tariff
 {
@@ -62,6 +64,7 @@ class StudentTariff extends Tariff
         return parent::getPrice();
     }
 }
+
 //Почасовой тариф
 class HourTariff extends Tariff
 {

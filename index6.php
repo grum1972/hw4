@@ -77,6 +77,7 @@ class TariffGPS implements iTariff
     {
         $this->tariff = $tariff;
     }
+
     public function getTime()
     {
         return $this->tariff->getTime();
@@ -84,9 +85,10 @@ class TariffGPS implements iTariff
 
     function getHour()
     {
-        $this->time= $this->tariff->getTime();
+        $this->time = $this->tariff->getTime();
         return ($this->time <= 60) ? 1 : ceil($this->time / 60);
     }
+
     public function getPrice()
     {
         return $this->tariff->getPrice() + $this->getHour() * 15;
