@@ -41,8 +41,71 @@ class BasicTariff implements iTariff
         return 'Базовый';
     }
 }
+class StudentTariff implements iTariff
+{
+    protected $distance;
+    protected $time;
+    protected $pricePerKm = 4;
+    protected $pricePerMin = 1;
 
-class TariffOptDrive implements iTariff
+    public function __construct(int $distance, int $time)
+    {
+        $this->time = $time;
+        $this->distance = $distance;
+    }
+
+    public function getPrice()
+    {
+        return $this->distance * $this->pricePerKm + $this->time * $this->pricePerMin;
+    }
+
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    public function getDescription()
+    {
+        return 'Студенческий';
+    }
+}
+class HourTariff implements iTariff
+{
+    protected $distance;
+    protected $time;
+    protected $pricePerHour = 200;
+
+    public function __construct(int $distance, int $time)
+    {
+        $this->time = $time;
+        $this->distance = $distance;
+    }
+
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    function getHour()
+    {
+        //$this->time = $this->tariff->getTime();
+        return ($this->time <= 60) ? 1 : ceil($this->time / 60);
+    }
+
+    public function getPrice()
+    {
+        return $this->getHour()*$this->pricePerHour;
+    }
+
+
+
+    public function getDescription()
+    {
+        return 'Почасовой';
+    }
+}
+
+class ServiceOptDrive implements iTariff
 {
 
     protected $tariff;
@@ -68,7 +131,7 @@ class TariffOptDrive implements iTariff
     }
 }
 
-class TariffGPS implements iTariff
+class ServiceGPS implements iTariff
 {
     protected $tariff;
     protected $time;
@@ -106,12 +169,35 @@ $trip = new BasicTariff(5, 60);
 echo $trip->getDescription();
 
 // Добавляем дополнительного водителя
-$trip = new TariffOptDrive($trip);
+$trip = new ServiceOptDrive($trip);
 echo $trip->getDescription();
 
 // Добавляем GPS
-$trip = new TariffGps($trip);
+$trip = new ServiceGPS($trip);
 echo $trip->getDescription();
 
 echo " будет стоить {$trip->getPrice()} рублей";
 
+echo '<br>';
+echo '<br>';
+echo 'Поездка по тарифу ';
+
+// Добавляем почасовой тариф
+$trip = new HourTariff(5, 90);
+
+echo $trip->getDescription();
+echo " будет стоить {$trip->getPrice()} рублей";
+
+echo '<br>';
+echo '<br>';
+echo 'Поездка по тарифу ';
+
+// Добавляем студенческий тариф
+$trip = new StudentTariff(5, 90);
+echo $trip->getDescription();
+
+// Добавляем GPS
+$trip = new ServiceGPS($trip);
+echo $trip->getDescription();
+
+echo " будет стоить {$trip->getPrice()} рублей";
