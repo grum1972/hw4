@@ -26,6 +26,10 @@ abstract class Service implements iTariff
     {
         return $this->tariff->getTime();
     }
+
+    abstract public function getPrice();
+
+    abstract public function getDescription();
 }
 
 //Абстрактный класс Тарифа
@@ -52,6 +56,7 @@ abstract class Tariff implements iTariff
         return $this->time;
     }
 
+    abstract public function getDescription();
 
 }
 
@@ -81,7 +86,7 @@ class HourTariff extends Tariff
 {
     protected $pricePerHour = 200;
 
-    function getHour()
+    public function getHour()
     {
         return ($this->time <= 60) ? 1 : ceil($this->time / 60);
     }
@@ -113,7 +118,7 @@ class ServiceOptDrive extends Service
 class ServiceGPS extends Service
 {
 
-    function getHour()
+    public function getHour()
     {
         $this->time = $this->tariff->getTime();
         return ($this->time <= 60) ? 1 : ceil($this->time / 60);
